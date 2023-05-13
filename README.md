@@ -39,6 +39,7 @@ Contributions to this mod are welcome. If you have any ideas, bug reports, or fe
 ## Acknowledgments
 
 - [AutoIt](https://www.autoitscript.com/) - The scripting language used to develop this mod.
+- [zip.au3] the udf I use for the zipfiles https://www.autoitscript.com/forum/topic/73425-zipau3-udf-in-pure-autoit/#entry534999
 
 ## Contact
 

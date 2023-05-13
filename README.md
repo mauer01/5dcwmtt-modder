@@ -18,7 +18,7 @@ These instructions will guide you on how to install and use the mod on your loca
 ### Usage
 
 1. Launch the mod tool.
-2. Select the files you want to replace from the provided list. (Files must be in the correct .ogg format for audio, and .png format for the pieces.png)
+2. Select the files you want to replace from the provided list. (Files must be in the correct .ogg for audio, and .png format for the pieces)
 3. Click the "Replace" button to apply the changes.
 4. Enjoy the customized experience in 5D Chess With Multiverse Time Travel!
 

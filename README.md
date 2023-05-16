@@ -13,7 +13,6 @@ These instructions will guide you on how to install and use the mod on your loca
 ### Installation
 
 1. Download the latest release of the mod from the [Releases](https://github.com/mauer01/5dcwmtt-modder/releases) page.
-2. Extract the downloaded ZIP file to a location of your choice.
 
 ### Usage
 

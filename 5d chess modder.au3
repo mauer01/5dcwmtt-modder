@@ -141,63 +141,30 @@ wind_half_second = ???
 
 $sound = "assets\sounds\"
 dim $files[2][25]
-$files[0][0] = "24"
-$files[0][1] = "assets\pieces\pieces.png"
-$files[0][2] = $sound & "ambience.ogg"
-$files[0][3] = $sound & "animation_activate.ogg"
-$files[0][4] = $sound & "bell.ogg"
-$files[0][5] = $sound & "cym_whoosh.ogg"
-$files[0][6] = $sound & "fanfare.ogg"
-$files[0][7] = $sound & "guiro_long.ogg"
-$files[0][8] = $sound & "guiro_short.ogg"
-$files[0][9] = $sound & "lightswitch.ogg"
-$files[0][10] = $sound & "music.ogg"
-$files[0][11] = $sound & "paper_shuffle.ogg"
-$files[0][12] = $sound & "timpani_hit_a2.ogg"
-$files[0][13] = $sound & "timpani_hit_c3.ogg"
-$files[0][14] = $sound & "timpani_hit_e3.ogg"
-$files[0][15] = $sound & "timpani_hit_e3_delayed.ogg"
-$files[0][16] = $sound & "timpani_hit_f3.ogg"
-$files[0][17] = $sound & "timpani_hit_g2.ogg"
-$files[0][18] = $sound & "timpani_roll_f3.ogg"
-$files[0][19] = $sound & "vibraslap_long.ogg"
-$files[0][20] = $sound & "vibraslap_short.ogg"
-$files[0][21] = $sound & "violin_tremolo_as3.ogg"
-$files[0][22] = $sound & "violin_tremolo_cs3.ogg"
-$files[0][23] = $sound & "wind.ogg"
-$files[0][24] = $sound & "wind_half_second.ogg"
-$files[1][1] = "Pieces"
-$files[1][2] = "Ambience"
-$files[1][3] = "Animation activate"
-$files[1][4] = "joining online game"
-$files[1][5] = "???"
-$files[1][6] = "winning a game"
-$files[1][7] = "undo move / reset guide and puzzle"
-$files[1][8] = "???"
-$files[1][9] = "click sound"
-$files[1][10] = "menu music"
-$files[1][11] = "copy code and discord link"
-$files[1][12] = "exiting to menu"
-$files[1][13] = "joining offline game"
-$files[1][14] = "opponent submits / all submits in offline game"
-$files[1][15] = "???"
-$files[1][16] = "traveling piece lands / piece joins travel animation"
-$files[1][17] = "???"
-$files[1][18] = "normal travel sound"
-$files[1][19] = "losing a game / time ran out in singleplayer"
-$files[1][20] = "opponent disconnected, draw, losing a puzzle"
-$files[1][21] = "travel animation sound between parallel universes"
-$files[1][22] = "???"
-$files[1][23] = "travel animation sound between time"
-$files[1][24] = "???"
+$files["Pieces"] = "assets\pieces\pieces.png"
+$files["Ambience"] = $sound & "ambience.ogg"
+$files["Animation activate"] = $sound & "animation_activate.ogg"
+$files["joining online game"] = $sound & "bell.ogg"
+$files["winning a game"] = $sound & "fanfare.ogg"
+$files["undo move / reset guide and puzzle"] = $sound & "guiro_long.ogg"
+$files["click sound"] = $sound & "lightswitch.ogg"
+$files["menu music"] = $sound & "music.ogg"
+$files["copy code and discord link"] = $sound & "paper_shuffle.ogg"
+$files["exiting to menu"] = $sound & "timpani_hit_a2.ogg"
+$files["joining offline game"] = $sound & "timpani_hit_c3.ogg"
+$files["opponent submits / all submits in offline game"] = $sound & "timpani_hit_e3.ogg"
+$files["traveling piece lands / piece joins travel animation"] = $sound & "timpani_hit_f3.ogg"
+$files["normal travel sound"] = $sound & "timpani_roll_f3.ogg"
+$files["losing a game / time ran out in singleplayer"] = $sound & "vibraslap_long.ogg"
+$files["opponent disconnected, draw, losing a puzzle"] = $sound & "vibraslap_short.ogg"
+$files["travel animation sound between parallel universes"] = $sound & "violin_tremolo_as3.ogg"
+$files["travel animation sound between time"] = $sound & "wind.ogg"
 
 #Region ### START Koda GUI section ### Form=
 $Form1 = GUICreate("5d chess mod", 364, 307, 770, 254)
 $targetfile = GUICtrlCreateList("", 8, 8, 249, 286,$WS_BORDER+$WS_VSCROLL+$LBS_EXTENDEDSEL)
-For $i = 1 to $files[0][0]
-	if $files[1][$i] <> "???" Then
-		GUICtrlSetData($targetfile,$files[1][$i])
-	EndIf
+for $file in MapKeys($files)
+	GUICtrlSetData($targetfile,$file)
 Next
 $replace = GUICtrlCreateButton("Replace", 264, 8, 83, 25)
 $zipsave = GUICtrlCreateButton("Save to zip", 264, 48, 83, 25)
@@ -241,23 +208,30 @@ While 1
 					$currentzipfile = _Zip_Create($tempfilesave)
 					$r_targetfile = _GUICtrlListBox_GetSelItemsText($targetfile)
 					ProgressOn("Creating Zip","might take a while with ambient.ogg and music.ogg")
-					For $i = 1 to $r_targetfile[0]
-						ProgressSet($i / $r_targetfile[0] * 100,"current file: " & $r_targetfile[$i])
-						$found = 0
-						$j = 1
-						While $found = 0
-							if $r_targetfile[$i] = $files[1][$j] Then
-								$found = $j
-							EndIf
-							$j += 1
-						WEnd
-						_Zip_Addfile($currentzipfile,$folder & "\" & $files[0][$found])
+					For $file in $r_targetfile
+						ProgressSet(Ubound($r_targetfile) / $file * 100,"current file: " & $file)
+						_Zip_Addfile($currentzipfile,$folder & "\" & $file)
 					Next
 					ProgressOff()
 				EndIf
 			Else
 				MsgBox(32,"nothing selected","you gotta select the files you wanna save")
 			EndIf
+			GUISetState(@SW_ENABLE)
+			GUISetState(@SW_RESTORE)
+		Case $foldersave
+			GUISetState(@SW_DISABLE)
+			if _GUICtrlListBox_GetSelCount($targetfile) > 0 Then
+				MsgBox(32,"nothing selected","you gotta select the files you wanna save")
+				continueloop
+			EndIf
+			$tempfilesave = FileSelectFolder("Select a folder to save all selected items",@WorkingDir,1)
+			if @error Then
+				MsgBox(16,"Folder Selection Failed","Folder selection failed returning to programm")
+				continueloop
+			EndIf
+			for $file in _GUICtrlListBox_GetSelItemsText($targetfile)
+				FileCopy($files[$file],$tempfilesave & "\" & $file,1)
 			GUISetState(@SW_ENABLE)
 			GUISetState(@SW_RESTORE)
 		Case $zipload
@@ -285,35 +259,6 @@ While 1
 
 			EndIf
 
-			GUISetState(@SW_ENABLE)
-			GUISetState(@SW_RESTORE)
-		Case $foldersave
-			GUISetState(@SW_DISABLE)
-			if _GUICtrlListBox_GetSelCount($targetfile) > 0 Then
-				$tempfilesave = FileSelectFolder("Select a folder to save all selected items",@WorkingDir,1)
-				if @error Then
-					MsgBox(16,"Folder Selection Failed","Folder selection failed returning to programm")
-				Else
-					$currentzipfile = _Zip_Create($tempfilesave)
-					$r_targetfile = _GUICtrlListBox_GetSelItemsText($targetfile)
-					ProgressOn("Creating Folder","Please wait until all files are copied")
-					For $i = 1 to $r_targetfile[0]
-						ProgressSet($i / $r_targetfile[0] * 100,"current file: " & $r_targetfile[$i])
-						$found = 0
-						$j = 1
-						While $found = 0
-							if $r_targetfile[$i] = $files[1][$j] Then
-								$found = $j
-							EndIf
-							$j += 1
-						WEnd
-						FileCopy($folder & "\" & $files[0][$found],$currentzipfile,1)
-					Next
-					ProgressOff()
-				EndIf
-			Else
-				MsgBox(32,"nothing selected","you gotta select the files you wanna save")
-			EndIf
 			GUISetState(@SW_ENABLE)
 			GUISetState(@SW_RESTORE)
 		Case $folderload
